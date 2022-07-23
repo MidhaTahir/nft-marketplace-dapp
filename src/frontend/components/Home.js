@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import { useState, useEffect } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  console.log({ marketplace, nft });
+  
   const loadMarketplaceItems = async () => {
     // Load all unsold items
     const itemCount = await marketplace.itemCount();
     let items = [];
+
     for (let i = 1; i <= itemCount; i++) {
       const item = await marketplace.items(i);
       if (!item.sold) {
@@ -35,6 +38,7 @@ const Home = ({ marketplace, nft }) => {
   };
 
   const buyMarketItem = async (item) => {
+    console.log(item);
     await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
@@ -44,6 +48,8 @@ const Home = ({ marketplace, nft }) => {
   useEffect(() => {
     loadMarketplaceItems();
   }, []);
+
+  
   if (loading)
     return (
       <main style={{ padding: "1rem 0" }}>

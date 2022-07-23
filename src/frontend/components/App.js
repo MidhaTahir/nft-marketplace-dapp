@@ -29,6 +29,7 @@ function App() {
     loadContracts(signer);
   };
 
+
   const loadContracts = async (signer) => {
     const marketplace = new ethers.Contract(
       MarketplaceAddress.address,
